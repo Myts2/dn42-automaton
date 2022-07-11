@@ -59,8 +59,8 @@ pause
 [ "$1" == "-o" -o "$2" == "-o" ] && {
 	sed -i "/dev dn42_${PEER_NAME} /d" /etc/hotplug.d/iface/40-dn42-wg
 	cat <<EOF >> /etc/hotplug.d/iface/40-dn42-wg
-[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip -4 route add dev dn42_${PEER_NAME} ${PEER_IP4}/32
-[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip -6 route add dev dn42_${PEER_NAME} ${PEER_IP6}/128
+[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${YOUR_IP4} peer ${PEER_IP4} dev %i
+[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${YOUR_IP6}/128 dev %i
 EOF
 	$BATCH || vi /etc/hotplug.d/iface/40-dn42-wg || exit
 }
