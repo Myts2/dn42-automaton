@@ -71,8 +71,9 @@ EOF
 mkdir -p /etc/bird/peers/
 cd /etc/bird/peers/
 cat <<EOF > dn42_${PEER_NAME}.conf
-protocol bgp ${PEER_NAME} from dn42 {
+protocol bgp ${PEER_NAME} from dnpeers {
     neighbor ${PEER_ll_IP6} % 'dn42_${PEER_NAME}' as ${PEER_ASN};
+    direct;
 }
 EOF
 $BATCH || vi dn42_${PEER_NAME}.conf || exit
