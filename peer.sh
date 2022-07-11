@@ -35,16 +35,16 @@ cat <<EOF > dn42_${PEER_NAME}.conf
 [Interface]
 ListenPort = 2${PEER_ASN:(-4)}
 PrivateKey = `cat private`
-Address = ${YOUR_IP4}/32
-Address = ${YOUR_IP6}/128
+
 Table = off
-PostUp = ip -4 route add dev dn42_${PEER_NAME} ${PEER_IP4}/32
-PostUp = ip -6 route add dev dn42_${PEER_NAME} ${PEER_IP6}/128
+PostUp = ip addr add ${YOUR_IP6}/128 dev %i
+PostUp = ip addr add ${YOUR_IP4} peer ${PEER_IP4} dev %i
+PostUp = sysctl -w net.ipv6.conf.%i.autoconf=0
 
 [Peer]
 PublicKey = ${PEER_PUBKEY}
 Endpoint = ${PEER_ENDPOINT}
-AllowedIPs = 0.0.0.0/0, ::/0
+AllowedIPs = 10.0.0.0/8, 172.20.0.0/14, 172.31.0.0/16, fd00::/8, fe80::/64
 PersistentKeepalive = 30
 EOF
 $BATCH || vi dn42_${PEER_NAME}.conf || exit
