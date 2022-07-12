@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export $(grep -v '^#' dn42.env | xargs)
+
 [ "$1" == "-b" -o "$2" == "-b" ] && BATCH=true || BATCH=false
 pause () {
 	$BATCH && return
@@ -11,6 +13,15 @@ pause () {
 echo
 echo "This is a Peer Automaton."
 echo
+
+echo "Your info:"
+echo "AS: ${OWNAS}"
+echo "DN42 ipv4: ${OWNIP}"
+echo "DN42 ipv6: ${OWNIPv6}"
+echo "DN42 ipv6: ${OWNIPv6}"
+echo "Local-link ipv6: ${OWNNETLLv6}"
+echo "Wireguard publickey: `cat /etc/wireguard/public`"
+echo "Wireguard endpoint: ${ENDPOINTADDR}:2+Your as number last 4 digits"
 
 read -p "Choose a short name for this peer: " PEER_NAME
 read -p "Enter peer ASN (e.g. 4242420817): " PEER_ASN
