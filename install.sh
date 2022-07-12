@@ -2,6 +2,14 @@
 
 export $(grep -v '^#' dn42.env | xargs)
 
+echo "Your info:"
+echo "AS: ${OWNAS}"
+echo "DN42 ipv4: ${OWNIP}"
+echo "DN42 ipv6: ${OWNIPv6}"
+echo "DN42 ipv6: ${OWNIPv6}"
+echo "Local-link ipv6: ${OWNNETLLv6}"
+pause "Is that right?"
+
 cat <<'EOF' >> /etc/sysctl.conf
 net.ipv4.conf.all.rp_filter=0
 net.ipv4.conf.default.rp_filter=0
