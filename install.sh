@@ -1,5 +1,13 @@
 #!/bin/bash
 
+pause () {
+	$BATCH && return
+	echo
+	echo -n "$1 "
+	echo "Press ENTER to proceed or Control-C to abort."
+	read
+}
+
 export $(grep -v '^#' dn42.env | xargs)
 
 echo "Your info:"
