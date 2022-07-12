@@ -29,13 +29,10 @@ read -p "Enter peer DN42 IPv6 address: " PEER_IP6
 read -p "Enter peer Link-local IPv6 address: " PEER_ll_IP6
 read -p "Enter peer WireGuard endpoint: " PEER_ENDPOINT
 read -p "Enter peer WireGuard pubkey: " PEER_PUBKEY
-read -p "Enter local DN42 IPv4 address: " YOUR_IP4
-read -p "Enter local DN42 IPv6 address: " YOUR_IP6
-read -p "Enter Link-local IPv6 address: " YOUR_ll_IP6
 echo
 echo "Your AS <---> AS${PEER_ASN}"
-echo "${YOUR_IP4} <---> ${PEER_IP4}"
-echo "${YOUR_IP6} <---> ${PEER_IP6}"
+echo "${OWNIP} <---> ${PEER_IP4}"
+echo "${OWNIPv6} <---> ${PEER_IP6}"
 echo "Peer endpoint: ${PEER_ENDPOINT}"
 echo "Peer pubkey: ${PEER_PUBKEY}"
 pause "Is that right?"
@@ -49,9 +46,9 @@ ListenPort = 2${PEER_ASN:(-4)}
 PrivateKey = `cat private`
 
 Table = off
-PostUp = ip addr add ${YOUR_ll_IP6}/64 dev %i
-PostUp = ip addr add ${YOUR_IP6}/128 dev %i
-PostUp = ip addr add ${YOUR_IP4} peer ${PEER_IP4} dev %i
+PostUp = ip addr add ${OWNNETLLv6}/64 dev %i
+PostUp = ip addr add ${OWNIPv6}/128 dev %i
+PostUp = ip addr add ${OWNIP} peer ${PEER_IP4} dev %i
 PostUp = sysctl -w net.ipv6.conf.%i.autoconf=0
 
 [Peer]
@@ -72,8 +69,8 @@ pause
 [ "$1" == "-o" -o "$2" == "-o" ] && {
 	sed -i "/dev dn42_${PEER_NAME} /d" /etc/hotplug.d/iface/40-dn42-wg
 	cat <<EOF >> /etc/hotplug.d/iface/40-dn42-wg
-[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${YOUR_IP4} peer ${PEER_IP4} dev %i
-[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${YOUR_ll_IP6}/64 dev %i && ip addr add ${YOUR_IP6}/128 dev %i
+[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${OWNIP} peer ${PEER_IP4} dev %i
+[ "\$ACTION" = "ifup" -a "\$INTERFACE" = "dn42_${PEER_NAME}" ] && ip addr add ${OWNNETLLv6}/64 dev %i && ip addr add ${OWNIPv6}/128 dev %i
 EOF
 	$BATCH || vi /etc/hotplug.d/iface/40-dn42-wg || exit
 }
