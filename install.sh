@@ -3,7 +3,6 @@
 pause () {
 	$BATCH && return
 	echo
-	echo -n "$1 "
 	echo "Press ENTER to proceed or Control-C to abort."
 	read
 }
