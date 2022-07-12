@@ -5,12 +5,14 @@ This is a repo for my [DN42](https://wiki.dn42.us/) network configuration and sc
 Stuff designed to use in my specific environment. It might be useful for you, but consider it a documentation only.
 
 **I promise this will NOT WORK for you without modification.**
+**Please change 'dn42.env' file to adapt your network.**
 
 I use WireGuard tunnels for internal networking, and run both eBGP and iBGP in my full-mesh network.
 
 ## File List
 
 - install.sh - install WireGuard & bird2, apply config, run roa.sh
+	- `-N` to skip apt install, just config
 - roa.sh - download ROA data of DN42 and set a timer to update it
 - intern.sh - configure WireGuard and bird2 for internal node
 	- `-b` to skip confirmations
