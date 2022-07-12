@@ -32,13 +32,13 @@ popd
 mkdir -p /etc/bird/peers
 cp bird.conf /etc/bird/bird.conf
 
-sed -i "s/CONFIG_OWNAS/${OWNAS}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNIP/${OWNIP}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNIPv6/${OWNIPv6}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNNET/${OWNNET}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNNETv6/${OWNNETv6}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNNETSET/${OWNNETSET}/" /etc/bird/bird.conf
-sed -i "s/CONFIG_OWNNETSETv6/${OWNNETSETv6}/" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNAS/${OWNAS}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNIP/${OWNIP}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNIPv6/${OWNIPv6}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNNET/${OWNNET}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNNETv6/${OWNNETv6}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNNETSET/${OWNNETSET}/g" /etc/bird/bird.conf
+sed -i "s/CONFIG_OWNNETSETv6/${OWNNETSETv6}/g" /etc/bird/bird.conf
 . roa.sh $1
 service bird restart
 [ "$1" == "-o" ] && birdc down ; /etc/init.d/bird start
